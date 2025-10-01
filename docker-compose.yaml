@@ -1,0 +1,61 @@
+version: '3.9'
+
+networks:
+  default:
+    name: appsec-network
+
+x-resources: &default-resources
+  deploy:
+    resources:
+      limits:
+        cpus: '0.50'
+        memory: 256M
+
+services:
+
+  idor:
+    image: blabla1337/owasp-skf-lab:idor
+    container_name: appsec-lab-idor
+    ports:
+      - "127.0.0.1:7000:5000"
+    restart: always
+    #<<: *default-resources
+
+  sqli:
+    image: blabla1337/owasp-skf-lab:sqli
+    container_name: appsec-lab-sqli
+    ports:
+      - "127.0.0.1:7001:5000"
+    restart: always
+    #<<: *default-resources
+
+  xss:
+    image: blabla1337/owasp-skf-lab:xss
+    container_name: appsec-lab-xss
+    ports:
+      - "127.0.0.1:7002:5000"
+    restart: always
+    #<<: *default-resources
+
+  ssrf:
+    image: blabla1337/owasp-skf-lab:ssrf
+    container_name: appsec-lab-ssrf
+    ports:
+      - "127.0.0.1:7003:5000"
+    restart: always
+    #<<: *default-resources
+
+  cmdi:
+    image: blabla1337/owasp-skf-lab:cmd2
+    container_name: appsec-lab-cmdi
+    ports:
+      - "127.0.0.1:7004:5000"
+    # restart: always
+    #<<: *default-resources
+  
+  # Internal only services, not exposed to host
+  ssrf.internal:
+    image: blabla1337/owasp-skf-lab:ssrf
+    container_name: appsec-lab-ssrf-internal
+    restart: always
+    #<<: *default-resources
