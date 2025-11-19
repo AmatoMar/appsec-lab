@@ -16,7 +16,7 @@ Accedi all'applicazione all'indirizzo [http://localhost:7002](http://localhost:7
 Utilizza questa stringa per verificare se i caratteri speciali vengono correttamente gestiti dall'applicazione:
 
 ```
-ciao >< "pippo" :// 'pippo' &=
+ciao, [] >< "pippo" ... :// 'pippo' &=;
 ```
 
 ### 3. Payload XSS 1
@@ -26,9 +26,31 @@ Un esempio di payload che può essere usato per testare la vulnerabilità XSS:
 XSS!<script>alert('XSS')</script>
 ```
 
-### 4. Payload XSS 2
+### 3. Payload XSS 2
+Un esempio di payload che per modificare il azione di un bottone:
+
+```
+XSS!
+<script>
+    var btn = document.evaluate(
+        "//button[contains(.,'Submit Button')]",
+        document,
+        null,
+        XPathResult.FIRST_ORDERED_NODE_TYPE,
+        null
+    ).singleNodeValue;
+
+    btn.type = 'button';
+    btn.onclick = function() {
+        alert('XSS via button!');
+    };
+</script>
+```
+
+
+### 4. Payload XSS 3
 Un esempio di link che può essere utilizzato per indurre l'utente a cliccare e sfruttare una vulnerabilità XSS:
 
 ```
-<a href="http://localhost:7000/">Clicca qui e ottieni 50% di sconto</a>
+<a href="https://www.tinextacyber.com/">Clicca qui e ottieni 50% di sconto</a>
 ```
